@@ -3,12 +3,14 @@
 *&---------------------------------------------------------------------*
 REPORT zac_date_conversion.
 
-DATA(date_c) = '20230103'.
-DATA date_n(10)   TYPE n.
-DATA date_d       TYPE d      VALUE '20230102'.
-DATA date_s       TYPE string VALUE '20230104'.
-DATA date_in      TYPE d.
-DATA date_ex(10).
+DATA: date_c(8)   VALUE  '20230103',
+      date_n(10)  TYPE n,
+      date_d      TYPE d      VALUE '20230102',
+      date_s      TYPE string VALUE '20230104',
+      date_in     TYPE d,
+      date_ex(10),
+      days_p(2)   TYPE p,
+      days_n(2)   TYPE n.
 **********************************************************************
 
 " Convert D(8) type 'YYYYMMDD' to char or string type user's default date format e.g. 'DD.MM.YYYY'
@@ -69,6 +71,21 @@ DATA(date_temp_in) = |{ date_temp_ex+6 }{ date_temp_ex+3(2) }{ date_temp_ex(2) }
 
 " Convert char or string type 'YYYYMMDD' to char or string type 'DD.MM.YYYY'
 REPLACE FIRST OCCURRENCE OF REGEX '(\d{4})(\d{2})(\d{2})' IN date_s WITH '$3.$2.$1'.
+**********************************************************************
+
+" get number of days in a month
+CALL FUNCTION 'HR_E_NUM_OF_DAYS_OF_MONTH'
+  EXPORTING
+    p_fecha        = sy-datum
+  IMPORTING
+    number_of_days = days_p.
+
+CALL FUNCTION 'NUMBER_OF_DAYS_PER_MONTH_GET'
+  EXPORTING
+    par_month = sy-datum+4(2)
+    par_year  = sy-datum(4)
+  IMPORTING
+    par_days  = days_n.
 
 
 BREAK-POINT.

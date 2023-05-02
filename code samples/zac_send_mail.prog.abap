@@ -23,10 +23,10 @@ ENDTRY.
 
 DATA(lv_xls) = gr_table->to_xml( xml_type = if_salv_bs_xml=>c_type_xlsx ).
 
-DATA(lv_subj) = CONV string('Artists List').
-DATA(lv_body) = '<html><head></head><body><br>' &&
-                'The list of nominees for the award is attached.' &&
-                '<br></body></html>'.
+DATA(lv_subj) = `Artists List`.
+DATA(lv_body) = `<html><head></head><body><br>` &&
+                `The list of nominees for the award is attached.` &&
+                `<br></body></html>`.
 
 DATA(lo_msg) = NEW cl_bcs_message( ).
 
